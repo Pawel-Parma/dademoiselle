@@ -32,22 +32,28 @@ async fn get_web_driver(url: &str) -> WebDriverResult<WebDriver> {
     return Ok(driver);
 }
 
-async fn hide_element(driver: &WebDriver, by: By) -> WebDriverResult<()> {
+async fn delete_element(driver: &WebDriver, by: By) -> WebDriverResult<()> {
     // Hide the element
     let element = driver.find(by).await?;
     let element_value = element.to_json()?;
     let args = vec![element_value];
-    let _ = driver.execute("arguments[0].parentNode.removeChild(arguments[0]);", args).await?;
+    let _ = driver
+        .execute("arguments[0].parentNode.removeChild(arguments[0]);", args)
+        .await?;
 
     return Ok(());
 }
 
-async fn hide_elements(driver: &WebDriver) -> WebDriverResult<()> {
+async fn delete_elements(driver: &WebDriver) -> WebDriverResult<()> {
     // Hide cookies
-    hide_element(&driver, By::Css(".mihoyo-cookie-tips.mihoyo-cookie-tips--bottom.mihoyo-cookie-tips--pc")).await?;
+    delete_element(
+        &driver,
+        By::Css(".mihoyo-cookie-tips.mihoyo-cookie-tips--bottom.mihoyo-cookie-tips--pc"),
+    )
+    .await?;
 
     // Hide main gui
-    hide_element(&driver, By::Id("frame")).await?;
+    delete_element(&driver, By::Id("frame")).await?;
 
     return Ok(());
 }
@@ -107,7 +113,7 @@ async fn fetch_data(url: &str, range: Range<i32>) -> WebDriverResult<Vec<Vec<u8>
     let driver = get_web_driver(url).await?;
 
     // Hide the elements that are blocking the canvas
-    hide_elements(&driver).await?;
+    delete_elements(&driver).await?;
 
     // Get the images
     let images_list = get_images(&driver, range).await?;
