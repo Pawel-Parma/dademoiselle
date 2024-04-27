@@ -57,6 +57,6 @@ target\release\dademoiselle.exe merge
 
 === 4. Output
 
-The video will be saved in the `gen/videos/run{x}` directory, where x is the images run number which was it merged from. +
+The video will be saved in the `gen/videos/runX` directory, where X is the images run number. +
 Maybe it is only on my system but the video cannot be played in any other player than ffplay. +
 I will look into it later.
