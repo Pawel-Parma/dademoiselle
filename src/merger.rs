@@ -17,6 +17,7 @@ pub fn merge_images(which_run: u32) {
         .arg("-f")
         .arg("mp4")
         // TODO: add video count.
+        // TODO: videos must have height and width divisible by 2, which is
         .arg(format!("{}/run{}/video.mp4", VIDEOS_DIR_PATH, which_run))
         .output()
         .expect("Failed to merge images into video");

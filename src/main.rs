@@ -20,21 +20,32 @@ fn check_args_correctness(args: &Vec<String>, name_config: &NameConfig) {
         std::process::exit(-2);
     }
 
-    if args[1] == "merge" && args.len() < 3 {
-        println!("Please provide a run number to merge");
+    if args[1] == "fetch" && args.len() != 2 {
+        println!("Too many arguments provided. Fetch does not require any arguments.");
         std::process::exit(-3);
     }
 
-    match args[2].parse::<u32>() {
-        Ok(parsed) => {
-            if parsed >= name_config.scrape_run_count {
-                println!("Run number provided is greater than the run count");
-                std::process::exit(-4);
+    if args[1] == "merge" && args.len() < 3 {
+        println!("Please provide a run number to merge");
+        std::process::exit(-4);
+    }
+    if args[1] == "merge" && args.len() > 3 {
+        println!("Too many arguments provided. Merge requires only one argument.");
+        std::process::exit(-5);
+    }
+
+    if args[1] == "merge" {
+        match args[2].parse::<u32>() {
+            Ok(parsed) => {
+                if parsed >= name_config.scrape_run_count {
+                    println!("Run number provided is greater than the run count");
+                    std::process::exit(-4);
+                }
             }
-        }
-        Err(_) => {
-            println!("Could not parse string to unsigned integer");
-            std::process::exit(-5);
+            Err(_) => {
+                println!("Could not parse string to unsigned integer");
+                std::process::exit(-5);
+            }
         }
     }
 }
