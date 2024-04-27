@@ -1,0 +1,62 @@
+= Dademoiselle
+
+A web scraper that fetches background from Genshin Impact web event Phantom of the Night, to merge them into a video for animated wallpaper.
+
+____
+
+*Note:* +
+The images have "Phantom of the Night" written on them. +
+It has to be removed manually, which is a tedious process.
+
+____
+
+____
+
+*Note:* +
+The code works only on windows as this is the only chromedriver distribution included. +
+To run on other platforms, download the appropriate chromedriver from https://googlechromelabs.github.io/chrome-for-testing/#stable[here], and put it in `chromedriver` directory with `chromedriver` as name.
+
+____
+
+== Usage
+
+=== 1. Ensure ffmpeg is installed
+
+[source,bash]
+----
+ffmpeg -version
+
+----
+
+If it is not installed, download from https://ffmpeg.org/download.html[here]
+
+=== 2. Build the project
+
+[source,bash]
+----
+cargo build --release -p dademoiselle --bin dademoiselle
+
+----
+
+=== 3. Run the project
+
+==== 3.1. Scrape the images
+
+[source,bash]
+----
+target\release\dademoiselle.exe scrape fetch
+
+----
+
+==== 3.2. Merge the images into a video
+
+[source,bash]
+----
+target\release\dademoiselle.exe merge
+----
+
+=== 4. Output
+
+The video will be saved in the `gen/videos/run{x}` directory, where x is the images run number which was it merged from. +
+Maybe it is only on my system but the video cannot be played in any other player than ffplay. +
+I will look into it later.

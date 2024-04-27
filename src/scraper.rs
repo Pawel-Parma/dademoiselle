@@ -9,7 +9,7 @@ use crate::consts::*;
 use crate::naming::NameConfig;
 
 fn start_chrome_driver() -> Child {
-    let child = Command::new("chromedriver/chromedriver.exe")
+    let child = Command::new("chromedriver/chromedriver")
         .arg("--port=8080")
         .spawn()
         .expect("Failed to start WebDriver server");
