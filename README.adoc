@@ -52,8 +52,9 @@ target\release\dademoiselle.exe scrape fetch
 
 [source,bash]
 ----
-target\release\dademoiselle.exe merge
+target\release\dademoiselle.exe merge X
 ----
+Where X is the fetch run number
 
 === 4. Output
 
