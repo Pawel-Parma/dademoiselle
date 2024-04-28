@@ -3,7 +3,7 @@ use std::io::Write;
 use std::process::{Child, Command};
 use std::time::Duration;
 
-use thirtyfour::{By, DesiredCapabilities, WebDriver};
+use thirtyfour::{By, ChromiumLikeCapabilities, DesiredCapabilities, WebDriver};
 
 use crate::consts::*;
 use crate::naming::NameConfig;
@@ -18,7 +18,11 @@ fn start_chrome_driver() -> Child {
 }
 
 async fn get_web_driver(url: &str) -> WebDriver {
-    let driver = WebDriver::new("http://localhost:8080", DesiredCapabilities::chrome())
+    let mut caps = DesiredCapabilities::chrome();
+    caps.add_arg("--window-size=974,685")
+        .expect("Failed to set window size");
+
+    let driver = WebDriver::new("http://localhost:8080", caps)
         .await
         .expect("Failed to create WebDriver");
     driver.get(url).await.expect("Failed to load page");

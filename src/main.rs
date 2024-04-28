@@ -21,7 +21,7 @@ fn check_args_correctness(args: &Vec<String>, name_config: &NameConfig) {
     }
 
     if args[1] == "fetch" && args.len() != 2 {
-        println!("Too many arguments provided. Fetch does not require any arguments.");
+        println!("Too many arguments provided. Fetch does not require any arguments");
         std::process::exit(-3);
     }
 
@@ -30,7 +30,7 @@ fn check_args_correctness(args: &Vec<String>, name_config: &NameConfig) {
         std::process::exit(-4);
     }
     if args[1] == "merge" && args.len() > 3 {
-        println!("Too many arguments provided. Merge requires only one argument.");
+        println!("Too many arguments provided. Merge requires only one argument");
         std::process::exit(-5);
     }
 
