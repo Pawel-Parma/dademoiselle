@@ -57,4 +57,4 @@ target\release\dademoiselle.exe merge
 
 === 4. Output
 
-The video will be saved in the `gen/videos/runX` directory, where X is the images run number. +
+The video will be saved in the `gen/videos/runX` directory, where X is the fetch run number. +
