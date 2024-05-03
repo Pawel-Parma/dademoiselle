@@ -19,9 +19,12 @@ fn start_chrome_driver() -> Child {
 
 async fn get_web_driver(url: &str) -> WebDriver {
     let mut caps = DesiredCapabilities::chrome();
-    caps.add_arg("--window-size=974,685")
+    // The magic numbers are the width and height of the browser elements, they are not part of the page itself.
+    // But only window size can be set, so we have to account for them.
+    let width = IMAGE_WIDTH + 14;
+    let height = IMAGE_HEIGHT + 145;
+    caps.add_arg(format!("--window-size={},{}", width, height))
         .expect("Failed to set window size");
-
     let driver = WebDriver::new("http://localhost:8080", caps)
         .await
         .expect("Failed to create WebDriver");
@@ -56,18 +59,18 @@ async fn delete_elements(driver: &WebDriver) {
 
 async fn get_images(driver: &WebDriver) -> Vec<Vec<u8>> {
     let canvas = driver.find(By::Id("webglCanvas")).await.expect("Failed to find canvas");
-
-    let mut images_list = Vec::new();
-    for i in RANGE {
-        let image = canvas.screenshot_as_png().await.expect("Failed to take screenshot");
-        images_list.push(image);
-
-        print!("\rCaptured {} screenshots", i + 1);
-        std::io::stdout().flush().unwrap();
+    // TODO: still kinda slow
+    let mut images_async = Vec::new();
+    for _ in RANGE {
+        images_async.push(canvas.screenshot_as_png());
     }
-    println!();
 
-    return images_list;
+    let mut images = Vec::new();
+    for image in images_async {
+        images.push(image.await.expect("Failed to take screenshot"));
+    }
+
+    return images;
 }
 
 fn save_images(images_list: &Vec<Vec<u8>>, run_count: u32) {
@@ -77,11 +80,7 @@ fn save_images(images_list: &Vec<Vec<u8>>, run_count: u32) {
         let path = format!("{}/run{}/image{}.png", IMAGES_DIR_PATH, run_count, i);
         let mut file = File::create(path).expect("Unable to create file");
         file.write_all(image).expect("Unable to write to file");
-
-        print!("\rSaved {} screenshots", i + 1);
-        std::io::stdout().flush().unwrap();
     }
-    println!();
 }
 
 async fn cleanup(driver: WebDriver, mut child: Child) {

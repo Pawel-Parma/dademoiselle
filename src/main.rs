@@ -9,6 +9,7 @@ use crate::merger::*;
 use crate::naming::*;
 use crate::scraper::*;
 
+// TODO: add some messages to the user
 fn check_args_correctness(args: &Vec<String>, name_config: &NameConfig) {
     if args.len() < 2 {
         println!("Please provide an argument. Use 'fetch' or 'merge'");

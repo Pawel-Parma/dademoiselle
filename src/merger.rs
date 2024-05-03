@@ -1,4 +1,4 @@
-use crate::consts::{IMAGES_DIR_PATH, VIDEOS_DIR_PATH};
+use crate::consts::{FRAMERATE, IMAGES_DIR_PATH, VIDEOS_DIR_PATH};
 use std::fs;
 use std::process::Command;
 
@@ -7,7 +7,7 @@ pub fn merge_images(which_run: u32) {
 
     Command::new("ffmpeg")
         .arg("-framerate")
-        .arg("30")
+        .arg(FRAMERATE.to_string())
         .arg("-i")
         .arg(format!("{}/run{}/image%d.png", IMAGES_DIR_PATH, which_run))
         .arg("-c:v")
@@ -17,7 +17,7 @@ pub fn merge_images(which_run: u32) {
         .arg("-f")
         .arg("mp4")
         // TODO: add video count.
-        .arg(format!("{}/run{}/video.mp4", VIDEOS_DIR_PATH, which_run))
+        .arg(format!("{}/run{}/video-F{}.mp4", VIDEOS_DIR_PATH, which_run, FRAMERATE))
         .output()
         .expect("Failed to merge images into video");
 }
