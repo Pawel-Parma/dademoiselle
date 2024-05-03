@@ -75,7 +75,7 @@ async fn scrape_images(driver: &WebDriver) -> Vec<Vec<u8>> {
     }
 
     let duration = start.elapsed();
-    println!("Time elapsed in scrape_images is: {:?}", duration);
+    println!("Images scraped in {:?}", duration);
 
     return images;
 }
