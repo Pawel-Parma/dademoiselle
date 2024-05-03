@@ -23,7 +23,7 @@ async fn get_web_driver(url: &str) -> WebDriver {
     // But only window size can be set, so we have to account for them.
     let width = IMAGE_WIDTH + 14;
     let height = IMAGE_HEIGHT + 145;
-    caps.add_arg(format!("--window-size={},{}", width, height))
+    caps.add_arg(&format!("--window-size={},{}", width, height))
         .expect("Failed to set window size");
     let driver = WebDriver::new("http://localhost:8080", caps)
         .await

@@ -60,7 +60,7 @@ async fn main() -> std::io::Result<()> {
     if args[1] == "fetch" {
         fetch_images(&mut name_config).await;
     } else if args[1] == "merge" {
-        merge_images(args[2].parse::<u32>().unwrap());
+        merge_images(args[2].parse::<u32>().unwrap(), &mut name_config);
     } else {
         println!("Invalid argument provided. Use 'fetch' or 'merge'");
     }

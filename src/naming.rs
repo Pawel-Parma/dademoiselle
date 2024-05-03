@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use std::fs::{create_dir_all, OpenOptions};
 
 use crate::consts::*;
@@ -6,12 +7,16 @@ use crate::consts::*;
 #[derive(Serialize, Deserialize)]
 pub struct NameConfig {
     pub scrape_run_count: u32,
+    pub video_count: HashMap<u32, u32>,
 }
 
 pub fn read_name_config() -> NameConfig {
     create_dir_all(GEN_DIR_PATH).expect("Unable to create gen directory");
 
-    let default_counts = NameConfig { scrape_run_count: 0 };
+    let default_counts = NameConfig {
+        scrape_run_count: 0,
+        video_count: HashMap::new(),
+    };
     let mut file = OpenOptions::new()
         .read(true)
         .write(true)
