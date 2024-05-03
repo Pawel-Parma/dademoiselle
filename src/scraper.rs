@@ -1,7 +1,8 @@
+use futures::stream::{FuturesOrdered, StreamExt};
 use std::fs::{create_dir_all, File};
 use std::io::Write;
 use std::process::{Child, Command};
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 use thirtyfour::{By, ChromiumLikeCapabilities, DesiredCapabilities, WebDriver};
 
@@ -57,19 +58,24 @@ async fn delete_elements(driver: &WebDriver) {
     delete_element(&driver, By::Id("frame")).await;
 }
 
+// TODO: after background has loaded, taking screenshots is slower
 async fn scrape_images(driver: &WebDriver) -> Vec<Vec<u8>> {
-    let canvas = driver.find(By::Id("webglCanvas")).await.expect("Failed to find canvas");
+    let start = Instant::now();
     // TODO: still kinda slow
+    let canvas = driver.find(By::Id("webglCanvas")).await.expect("Failed to find canvas");
 
-    let mut images_async = Vec::new();
+    let mut tasks = FuturesOrdered::new();
     for _ in RANGE {
-        images_async.push(canvas.screenshot_as_png());
+        tasks.push_back(canvas.screenshot_as_png());
     }
 
     let mut images = Vec::new();
-    for image in images_async {
-        images.push(image.await.expect("Failed to take screenshot"));
+    while let Some(result) = tasks.next().await {
+        images.push(result.expect("Failed to take screenshot"));
     }
+
+    let duration = start.elapsed();
+    println!("Time elapsed in scrape_images is: {:?}", duration);
 
     return images;
 }

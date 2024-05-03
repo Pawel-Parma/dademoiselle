@@ -11,26 +11,26 @@ use crate::scraper::*;
 
 fn check_args_correctness(args: &Vec<String>, name_config: &NameConfig) {
     if args.len() < 2 {
-        println!("Please provide an argument. Use 'fetch' or 'merge'");
+        eprintln!("Please provide an argument. Use 'fetch' or 'merge'");
         std::process::exit(-1);
     }
 
     if args[1] != "fetch" && args[1] != "merge" {
-        println!("Invalid argument provided. Use 'fetch' or 'merge'");
+        eprintln!("Invalid argument provided. Use 'fetch' or 'merge'");
         std::process::exit(-2);
     }
 
     if args[1] == "fetch" && args.len() != 2 {
-        println!("Too many arguments provided. Fetch does not require any arguments");
+        eprintln!("Too many arguments provided. Fetch does not require any arguments");
         std::process::exit(-3);
     }
 
     if args[1] == "merge" && args.len() < 3 {
-        println!("Please provide a run number to merge");
+        eprintln!("Please provide a run number to merge");
         std::process::exit(-4);
     }
     if args[1] == "merge" && args.len() > 3 {
-        println!("Too many arguments provided. Merge requires only one argument");
+        eprintln!("Too many arguments provided. Merge requires only one argument");
         std::process::exit(-5);
     }
 
@@ -38,12 +38,12 @@ fn check_args_correctness(args: &Vec<String>, name_config: &NameConfig) {
         match args[2].parse::<u32>() {
             Ok(parsed) => {
                 if parsed >= name_config.scrape_run_count {
-                    println!("Run number provided is greater than the run count");
+                    eprintln!("Run number provided is greater than the run count");
                     std::process::exit(-4);
                 }
             }
             Err(_) => {
-                println!("Could not parse string to unsigned integer");
+                eprintln!("Could not parse string to unsigned integer");
                 std::process::exit(-5);
             }
         }
@@ -58,7 +58,6 @@ async fn main() -> std::io::Result<()> {
 
     if args[1] == "fetch" {
         println!("Starting to fetch images...");
-
         fetch_images(&mut name_config).await;
         println!("Finished fetching images.");
     } else if args[1] == "merge" {
@@ -66,7 +65,7 @@ async fn main() -> std::io::Result<()> {
         merge_images(args[2].parse::<u32>().unwrap(), &mut name_config);
         println!("Finished merging images.");
     } else {
-        println!("Invalid argument provided. Use 'fetch' or 'merge'");
+        eprintln!("Invalid argument provided. Use 'fetch' or 'merge'");
     }
 
     write_name_config(&name_config);
