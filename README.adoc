@@ -56,7 +56,11 @@ target\release\dademoiselle.exe scrape fetch
 
 ----
 
-==== 3.2. Merge the images into a video
+==== 3.2 Prepare the images
+
+Manually upscale the images and remove the "Phantom of the Night" writing.
+
+==== 3.3. Merge the images into a video
 
 [source,bash]
 ----
