@@ -7,7 +7,7 @@ pub fn merge_images(which_run: u32, name_config: &mut NameConfig) {
     fs::create_dir_all(format!("{}/run{}", VIDEOS_DIR_PATH, which_run)).expect("Unable to create directory");
 
     let video = name_config.video_count.entry(which_run).or_insert(0);
-
+    println!("Merging images into video...");
     Command::new("ffmpeg")
         .arg("-framerate")
         .arg(FRAMERATE.to_string())
@@ -26,5 +26,6 @@ pub fn merge_images(which_run: u32, name_config: &mut NameConfig) {
         .output()
         .expect("Failed to merge images into video");
 
+    println!("Video created.");
     *video += 1;
 }

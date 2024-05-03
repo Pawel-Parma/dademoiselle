@@ -25,7 +25,6 @@ pub fn read_name_config() -> NameConfig {
         .expect("Unable to open name config file");
 
     let counts = serde_json::from_reader(&file);
-
     return match counts {
         Ok(c) => c,
         Err(_) => {
@@ -38,6 +37,7 @@ pub fn read_name_config() -> NameConfig {
 pub fn write_name_config(counts: &NameConfig) {
     let file = OpenOptions::new()
         .write(true)
+        .truncate(true)
         .create(true)
         .open(NAME_CONFIG_PATH)
         .expect("Unable to open name config file");

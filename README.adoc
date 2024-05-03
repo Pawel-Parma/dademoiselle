@@ -13,6 +13,14 @@ ____
 ____
 
 *Note:* +
+The images are in 960x540 resolution. +
+It is recommended to upscale them to 1920x1080 resolution before removing "Phantom of the Night" writing. +
+
+____
+
+____
+
+*Note:* +
 The code works only on windows as this is the only chromedriver distribution included. +
 To run on other platforms, download the appropriate chromedriver from https://googlechromelabs.github.io/chrome-for-testing/#stable[here], and put it in `chromedriver` directory with `chromedriver` as name.
 
@@ -54,6 +62,7 @@ target\release\dademoiselle.exe scrape fetch
 ----
 target\release\dademoiselle.exe merge X
 ----
+
 Where X is the fetch run number
 
 === 4. Output

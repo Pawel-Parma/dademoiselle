@@ -57,9 +57,10 @@ async fn delete_elements(driver: &WebDriver) {
     delete_element(&driver, By::Id("frame")).await;
 }
 
-async fn get_images(driver: &WebDriver) -> Vec<Vec<u8>> {
+async fn scrape_images(driver: &WebDriver) -> Vec<Vec<u8>> {
     let canvas = driver.find(By::Id("webglCanvas")).await.expect("Failed to find canvas");
     // TODO: still kinda slow
+
     let mut images_async = Vec::new();
     for _ in RANGE {
         images_async.push(canvas.screenshot_as_png());
@@ -92,11 +93,15 @@ pub async fn fetch_images(name_config: &mut NameConfig) {
     let child = start_chrome_driver();
     let driver = get_web_driver(URL).await;
 
+    println!("Deleting elements...");
     delete_elements(&driver).await;
 
-    let images_list = get_images(&driver).await;
+    println!("Scraping images...");
+    let images_list = scrape_images(&driver).await;
+    println!("Saving images...");
     save_images(&images_list, name_config.scrape_run_count);
     name_config.scrape_run_count += 1;
 
+    println!("Cleaning up...");
     cleanup(driver, child).await;
 }
