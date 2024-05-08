@@ -15,6 +15,7 @@ ____
 *Note:* +
 The images are in 960x540 resolution. +
 It is recommended to upscale them to 1920x1080 resolution before removing "Phantom of the Night" writing. +
+You can also change the resolution in src/consts.rs
 
 ____
 
