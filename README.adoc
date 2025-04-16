@@ -22,8 +22,7 @@ ____
 ____
 
 *Note:* +
-The code works only on windows as this is the only chromedriver distribution included. +
-To run on other platforms, download the appropriate chromedriver from https://googlechromelabs.github.io/chrome-for-testing/#stable[here], and put it in `chromedriver` directory with `chromedriver` as name.
+To run the code download the appropriate chromedriver from https://googlechromelabs.github.io/chrome-for-testing/#stable[here], and put it in `chromedriver` directory with `chromedriver` as name.
 
 ____
 
